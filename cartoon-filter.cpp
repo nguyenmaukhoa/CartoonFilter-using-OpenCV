@@ -7,6 +7,8 @@
 #include <opencv2/imgcodecs.hpp>
 #include <iostream>
 #include <string>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 using namespace cv;
@@ -58,8 +60,7 @@ int main(){
 	// Create video write object to generate output video
  	int frame_width = cap.get(CAP_PROP_FRAME_WIDTH);
   	int frame_height = cap.get(CAP_PROP_FRAME_HEIGHT);
-	// VideoWriter outmp4("../video/bird-cartoon-filtered.mp4", VideoWriter::fourcc('F','M','P','4'), 10, Size(frame_width,frame_height));
-	VideoWriter outmp4("output.mp4",cv::VideoWriter::fourcc('X','V','I','D'),10, Size(frame_width,frame_height));
+	VideoWriter outmp4("../output/bird-cartoonified.mp4", VideoWriter::fourcc('F','M','P','4'), 24, Size(frame_width,frame_height));
 	
 	// Check the video is loaded sucessfully
 	if(!cap.isOpened()){
@@ -68,7 +69,7 @@ int main(){
 	}
 
 	// Display the video until ESC key is pressed
-	while(1){
+	while(cap.isOpened()){
 
 		// Matrix to hold each video frame
 		Mat frame, cartoonifiedFrame;
@@ -90,7 +91,7 @@ int main(){
 		outmp4.write(cartoonifiedFrame);
 
 		// Stop when ESC key is pressed
-		char c = (char)waitKey(25);
+		char c = (char)waitKey(5);
 		if(c == 27)
 			break;
 	}
